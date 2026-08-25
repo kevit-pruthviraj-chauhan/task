@@ -1,7 +1,7 @@
-import { TaskView } from "./pages/TaskView"
+import { TaskView } from "./pages/TaskView";
 
 export function App() {
-  return <TaskView />
+	return <TaskView />;
 }
 
-export default App
+export default App;
