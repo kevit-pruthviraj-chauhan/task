@@ -8,14 +8,9 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import type { Task } from "@/stores/slices/task.slice";
 import { DeleteTaskDialog } from "./DeleteTaskDialog";
 import { EditTaskDialog } from "./EditTaskDialog";
-
-type Task = {
-	id: number;
-	name: string;
-	status: string;
-};
 
 type TaskActionsProps = {
 	task: Task;

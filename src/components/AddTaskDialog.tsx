@@ -20,13 +20,17 @@ export function AddTaskDialog() {
 	const [name, setName] = useState("");
 	const [open, setOpen] = useState(false);
 
-	const handleAdd = () => {
+	const handleAdd = async () => {
 		if (!name.trim()) return;
 
-		dispatch(addTask(name.trim()));
+		try {
+			await dispatch(addTask(name.trim())).unwrap();
 
-		setName("");
-		setOpen(false);
+			setName("");
+			setOpen(false);
+		} catch (error) {
+			console.error("Failed to add task:", error);
+		}
 	};
 
 	return (

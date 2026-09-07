@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AddTaskDialog } from "@/components/AddTaskDialog";
 import { TaskActions } from "@/components/TaskActions";
@@ -10,31 +11,49 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-import { toggleTask } from "@/stores/slices/task.slice";
+import { fetchTasks, toggleTask } from "@/stores/slices/task.slice";
 import type { AppDispatch, RootState } from "@/stores/store";
 
 export function TaskView() {
 	const dispatch = useDispatch<AppDispatch>();
+
 	const tasks = useSelector((state: RootState) => state.tasks.tasks);
+
+	const loading = useSelector((state: RootState) => state.tasks.loading);
+
+	const error = useSelector((state: RootState) => state.tasks.error);
+
+	useEffect(() => {
+		dispatch(fetchTasks());
+	}, [dispatch]);
+
 	return (
 		<div className="w-full px-4 py-6">
 			<div className="mx-auto w-fit">
 				<div className="mb-4 flex items-center justify-between">
 					<div>
 						<h1 className="text-xl font-semibold">Tasks</h1>
+
 						<p className="text-sm text-muted-foreground">Manage your tasks</p>
 					</div>
 
 					<AddTaskDialog />
 				</div>
 
+				{loading && <p className="mb-4 text-sm">Loading tasks...</p>}
+
+				{error && <p className="mb-4 text-sm text-red-500">{error}</p>}
+
 				<div className="rounded-lg border">
 					<Table>
 						<TableHeader>
 							<TableRow>
 								<TableHead className="w-15">ID</TableHead>
+
 								<TableHead className="w-70">Task Name</TableHead>
+
 								<TableHead className="w-32.5">Status</TableHead>
+
 								<TableHead className="w-15 text-right">Action</TableHead>
 							</TableRow>
 						</TableHeader>
